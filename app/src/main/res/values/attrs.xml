@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="OwnProgressBar">
+        <attr name="circle_color" format="color"/>
+        <attr name="circle_text" format="string"/>
+        <attr name="text_color" format="color"/>
+        <attr name="circle_size" format="dimension"/>
+        <attr name="circle_default_corlor" format="color"/>
+        <attr name="circle_progress" format="integer"/>
+        <attr name="circle_radius" format="dimension"/>
+        <attr name="max_progress" format="integer"/>
+        <attr name="progress_style" format="enum">
+            <enum name="ROUND" value="0"/>
+            <enum name="CLIP" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="HeartCircleProgressBar">
+        <attr name="heart_radius" format="dimension"/>
+        <attr name="heart_time" format="integer"/>
+        <attr name="heart_stoke" format="dimension"/>
+        <attr name="heart_circle_color" format="color"/>
+        <attr name="heart_point_color" format="color"/>
+        <attr name="heart_start" format="float"/>
+        <attr name="heart_point_radius" format="dimension"/>
+    </declare-styleable>
+</resources>
