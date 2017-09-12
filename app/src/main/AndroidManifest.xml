@@ -22,10 +22,6 @@
             android:name=".ExpandListviewActivity"
             android:label="@string/title_activity_expand_listview" >
         </activity>
-        <activity
-            android:name=".ImageGalleryActivity"
-            android:label="@string/title_activity_image_gallery" >
-        </activity>
     </application>
 
 </manifest>
