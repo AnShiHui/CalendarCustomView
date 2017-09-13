@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //heartCircleProgressBar = (HeartCircleProgressBar) findViewById(R.id.heart_pb);
        // chronometer = (Chronometer) findViewById(R.id.timer);
        // iv = (ImageView) findViewById(R.id.iv_heart);
-        btn_size = (Button) findViewById(R.id.btn_size);
+       // btn_size = (Button) findViewById(R.id.btn_size);
         customCalendarView = (CustomCalendarView) findViewById(R.id.ccv);
-        btn_size.setOnClickListener(this);
+        //btn_size.setOnClickListener(this);
         customCalendarView.setListener(this);
        // heartCircleProgressBar.setTimerListener(this);
        // animatorSet = new AnimatorSet();//组合动画
@@ -104,11 +104,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            case R.id.btn_pbcolor:
 //                progressBar.setDefaultColor(Color.GREEN);
 //                break;
-            case R.id.btn_size:
-                Log.d("TAG", " settings");
+            //case R.id.btn_size:
+               // Log.d("TAG", " settings");
                //customCalendarView.setYearAndMonth(2017,10);
-                startActivity(new Intent(MainActivity.this,ExpandListviewActivity.class));
-                break;
+              //  startActivity(new Intent(MainActivity.this,ExpandListviewActivity.class));
+             //   break;
 //            case R.id.btn:
 //                progressBar.setCircleProgress(i++);
 //                break;

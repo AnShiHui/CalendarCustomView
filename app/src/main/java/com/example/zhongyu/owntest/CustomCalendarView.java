@@ -7,13 +7,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import java.math.BigDecimal;
+
 /**
  * Created by zhongyu on 2017/9/11.
+ * 日历
  */
 public class CustomCalendarView extends View {
 
@@ -83,7 +85,7 @@ public class CustomCalendarView extends View {
         viewWidth = getMeasuredWidth();
         cardWidth = viewWidth/7;
         viewHeight = (int) (cardWidth*8.5f);
-       setMeasuredDimension(viewWidth, viewHeight);
+        setMeasuredDimension(viewWidth + cardWidth * 2, viewHeight + cardWidth / 2);
     }
 
     public int getSelectedDayNum() {
@@ -110,9 +112,9 @@ public class CustomCalendarView extends View {
 
     private void drawLeftAndRightIcon(Canvas canvas,float txtwidth) {
         Bitmap leftBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_left);
-        Bitmap rightBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.icon_right);
-        canvas.drawBitmap(leftBitmap,2*cardWidth -txtwidth/2,cardWidth/2,paint);
-        canvas.drawBitmap(rightBitmap,6*cardWidth -txtwidth/6,cardWidth/2,paint);
+        Bitmap rightBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_right);
+        canvas.drawBitmap(leftBitmap, 2 * cardWidth - txtwidth / 2, cardWidth / 2, paint);
+        canvas.drawBitmap(rightBitmap, 6 * cardWidth - txtwidth / 6, cardWidth / 2, paint);
     }
 
     /**
@@ -131,10 +133,10 @@ public class CustomCalendarView extends View {
                     paint.setColor(Color.GRAY);
                     c.drawText(dayNum[i][j] + "", (float) cardWidth * j + text / 2, (float) cardWidth * (i + 3), paint);
                 }else {//本月的
-                        paint.setColor(Color.BLACK);
-                        c.drawText(dayNum[i][j]+"",(float)cardWidth*j+text/2,(float)cardWidth*(i+3),paint);
+                    paint.setColor(Color.BLACK);
+                    c.drawText(dayNum[i][j]+"",(float)cardWidth*j+text/2,(float)cardWidth*(i+3),paint);
                 }
-                if (dayNum[i][j] == selectedDayNum&& !isClick){//第一次打开日历默认选中
+                if (dayNum[i][j] == selectedDayNum&& !isClick&& i<3){//第一次打开日历默认选中
                     paint.setColor(Color.WHITE);
                     c.drawCircle((float) cardWidth * j + cardWidth/2, (float) cardWidth * (3+i)-cardWidth/12, cardWidth / 2, clickPaint);
                     c.drawText(dayNum[i][j] + "", (float) cardWidth * j + text / 2, (float) cardWidth * (i + 3), paint);
@@ -158,10 +160,10 @@ public class CustomCalendarView extends View {
             canvas.drawText(weeeks[i],(float) cardWidth*i+measureText/2, (float) cardWidth*2, paint);
         }
     }
-     public void setDate(){
-         dayNum = DateUtil.getMonthNumFromDate(year,month);
-            invalidate();
-     }
+    public void setDate(){
+        dayNum = DateUtil.getMonthNumFromDate(year,month);
+        invalidate();
+    }
 
     /**
      * 设置日期
@@ -183,10 +185,14 @@ public class CustomCalendarView extends View {
                 int ySwitch = (int) ((mDownY - cardWidth)/cardWidth);
                 if (ySwitch <= 1){
                     if (x >= 1 && x <= 2){
+                        isClick = false;
                         onPreChoosed();
                     }else if ( x >= 5 && x <= 6){
+                        isClick = false;
                         onNextChoosed();
                     }
+                }else {
+                    isClick = true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -203,8 +209,10 @@ public class CustomCalendarView extends View {
      * @param mDownY
      */
     private void setSelectedDay(float mDownX, float mDownY) {
-         x = (int) (mDownX / cardWidth);
-         y = (int) ((mDownY-3*cardWidth))/cardWidth;
+        x = (int) (mDownX / cardWidth);
+        y = (int) ((mDownY-3*cardWidth))/cardWidth;
+        x = new BigDecimal(x+"").setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+        y = new BigDecimal(y+"").setScale(0,BigDecimal.ROUND_HALF_UP).intValue();
         if (y >= 6||x >= 7 ||x < 0 || y < 0){
             return;
         }else if (y == 0&&dayNum[y][x] > 20){//上个月
@@ -241,6 +249,7 @@ public class CustomCalendarView extends View {
             month = month -1;
         }
         day = 1;
+        selectedDayNum = day;
         invalidate();
     }
 
@@ -255,12 +264,37 @@ public class CustomCalendarView extends View {
             month = month+1;
         }
         day = 1;
+        selectedDayNum = day;
         invalidate();
+    }
+
+    /**
+     * 前一天
+     */
+    public void onDaypre(){
+        if (day == 1){
+            onPreChoosed();
+        }else {
+            day = day -1;
+        }
+        listener.calendarClick(year, month, day);
+    }
+
+    /**
+     * 后一天
+     */
+    public void onDayNext(){
+        if (day == DateUtil.getMonthDaysNum(year,month)){
+            onNextChoosed();
+        }else {
+            day = day+1;
+        }
+        listener.calendarClick(year, month, day);
     }
     /**
      * 获取日期接口
      */
-    interface OnCalendarClickListener{
-        void calendarClick(int year,int month,int day);
+    public interface OnCalendarClickListener{
+        void calendarClick(int year, int month, int day);
     }
 }

@@ -72,10 +72,10 @@
         android:text="设置圆环粗细"
         android:id="@+id/btn_size"
         />-->
-    <Button
+   <!-- <Button
         android:layout_width="match_parent"
         android:layout_height="50dip"
         android:text="设置日历时间"
         android:id="@+id/btn_size"
-        />
+        />-->
 </LinearLayout>
